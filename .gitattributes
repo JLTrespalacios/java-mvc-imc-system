@@ -1,0 +1,9 @@
+# Ignorar archivos de configuración del IDE en las estadísticas de lenguaje y diffs
+*.iml linguist-generated
+.idea/** linguist-generated
+
+# Marcar archivos de datos de prueba como generados/datos
+*.txt linguist-generated
+
+# La documentación no debe contar como código
+README.md linguist-documentation
