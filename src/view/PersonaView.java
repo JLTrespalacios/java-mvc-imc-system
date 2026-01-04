@@ -9,7 +9,7 @@ import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.List;
-import model.Persona;
+import model.Paciente;
 
 public class PersonaView extends JFrame {
 
@@ -281,9 +281,9 @@ public class PersonaView extends JFrame {
 
     public int getFilaSeleccionada() { return tablaPersonas.getSelectedRow(); }
 
-    public void mostrarPersonas(List<Persona> personas) {
+    public void mostrarPacientes(List<Paciente> pacientes) {
         modeloTabla.setRowCount(0);
-        for (Persona p : personas) {
+        for (Paciente p : pacientes) {
             modeloTabla.addRow(new Object[]{
                 p.getNombre(), p.getEdad(), p.getPeso(), p.getEstatura(),
                 String.format("%.2f", p.calcularIMC()), p.interpretarIMC(),

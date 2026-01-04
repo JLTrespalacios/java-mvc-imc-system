@@ -1,6 +1,6 @@
 package controller;
 
-import model.Persona;
+import model.Paciente;
 import model.PersonaDAO;
 import view.PersonaView;
 
@@ -31,7 +31,7 @@ public class PersonaController {
     }
 
     private void actualizarTabla() {
-        view.mostrarPersonas(dao.obtenerPersonas());
+        view.mostrarPacientes(dao.obtenerPacientes());
     }
 
     private class RegistrarListener implements ActionListener {
@@ -43,9 +43,9 @@ public class PersonaController {
                 double peso = Double.parseDouble(view.getPeso());
                 double estatura = Double.parseDouble(view.getEstatura());
 
-                Persona persona = new Persona(nombre, edad, peso, estatura);
-                dao.registrarPersona(persona);
-                view.mostrarMensaje("Persona registrada con éxito.");
+                Paciente paciente = new Paciente(nombre, edad, peso, estatura);
+                dao.registrarPaciente(paciente);
+                view.mostrarMensaje("Paciente registrado con éxito.");
                 view.limpiarCampos();
                 actualizarTabla();
             } catch (NumberFormatException ex) {
@@ -61,7 +61,7 @@ public class PersonaController {
         public void actionPerformed(ActionEvent e) {
             int fila = view.getFilaSeleccionada();
             if (fila == -1) {
-                view.mostrarError("Seleccione una persona de la tabla para actualizar.");
+                view.mostrarError("Seleccione un paciente de la tabla para actualizar.");
                 return;
             }
 
@@ -71,13 +71,13 @@ public class PersonaController {
                 double peso = Double.parseDouble(view.getPeso());
                 double estatura = Double.parseDouble(view.getEstatura());
 
-                boolean exito = dao.actualizarPersona(fila, nombre, edad, peso, estatura);
+                boolean exito = dao.actualizarPaciente(fila, nombre, edad, peso, estatura);
                 if (exito) {
-                    view.mostrarMensaje("Persona actualizada con éxito.");
+                    view.mostrarMensaje("Paciente actualizado con éxito.");
                     view.limpiarCampos();
                     actualizarTabla();
                 } else {
-                    view.mostrarError("No se pudo actualizar la persona.");
+                    view.mostrarError("No se pudo actualizar el paciente.");
                 }
             } catch (NumberFormatException ex) {
                 view.mostrarError("Por favor ingrese datos numéricos válidos.");
@@ -90,18 +90,18 @@ public class PersonaController {
         public void actionPerformed(ActionEvent e) {
             int fila = view.getFilaSeleccionada();
             if (fila == -1) {
-                view.mostrarError("Seleccione una persona de la tabla para eliminar.");
+                view.mostrarError("Seleccione un paciente de la tabla para eliminar.");
                 return;
             }
 
             // Confirmación opcional
-            boolean exito = dao.eliminarPersona(fila);
+            boolean exito = dao.eliminarPaciente(fila);
             if (exito) {
-                view.mostrarMensaje("Persona eliminada con éxito.");
+                view.mostrarMensaje("Paciente eliminado con éxito.");
                 view.limpiarCampos();
                 actualizarTabla();
             } else {
-                view.mostrarError("No se pudo eliminar la persona.");
+                view.mostrarError("No se pudo eliminar el paciente.");
             }
         }
     }
@@ -120,11 +120,7 @@ public class PersonaController {
                 int fila = view.getFilaSeleccionada();
                 if (fila != -1) {
                     // Obtener datos del modelo y ponerlos en los campos
-                    // Nota: En una app real, usaríamos el ID o el objeto Persona directamente.
-                    // Aquí usamos los valores de la tabla, asumiendo que coinciden con el orden.
-                    // Mejor práctica: obtener el objeto Persona del DAO por índice.
-                    
-                    Persona p = dao.obtenerPersonas().get(fila);
+                    Paciente p = dao.obtenerPacientes().get(fila);
                     view.setNombre(p.getNombre());
                     view.setEdad(String.valueOf(p.getEdad()));
                     view.setPeso(String.valueOf(p.getPeso()));

@@ -1,16 +1,12 @@
 package model;
 
-public class Persona {
-    private String nombre;
-    private int edad;
-    private double peso;
-    private double estatura;
+public abstract class Persona {
+    protected String nombre;
+    protected int edad;
 
-    public Persona(String nombre, int edad, double peso, double estatura) {
+    public Persona(String nombre, int edad) {
         this.nombre = nombre;
         this.edad = edad;
-        this.peso = peso;
-        this.estatura = estatura;
     }
 
     public String getNombre() {
@@ -29,78 +25,6 @@ public class Persona {
         this.edad = edad;
     }
 
-    public double getPeso() {
-        return peso;
-    }
-
-    public void setPeso(double peso) {
-        this.peso = peso;
-    }
-
-    public double getEstatura() {
-        return estatura;
-    }
-
-    public void setEstatura(double estatura) {
-        this.estatura = estatura;
-    }
-
-    public double calcularIMC() {
-        if (estatura == 0) return 0;
-        return peso / (estatura * estatura);
-    }
-
-    public String interpretarIMC() {
-        double imc = calcularIMC();
-        if (imc < 18.5) {
-            return "Bajo peso";
-        } else if (imc < 25) {
-            return "Normal";
-        } else if (imc < 30) {
-            return "Sobrepeso";
-        } else {
-            return "Obesidad";
-        }
-    }
-
-    /**
-     * Obtiene el rango de peso "normal" aproximado basado en la edad.
-     * @return Un arreglo de double donde [0] es peso mínimo y [1] es peso máximo. Retorna null si no aplica.
-     */
-    public double[] obtenerRangoPesoPorEdad() {
-        if (edad >= 18 && edad <= 24) return new double[]{50, 70};
-        if (edad >= 25 && edad <= 34) return new double[]{55, 75};
-        if (edad >= 35 && edad <= 44) return new double[]{58, 78};
-        if (edad >= 45 && edad <= 54) return new double[]{60, 80};
-        if (edad >= 55 && edad <= 64) return new double[]{58, 78};
-        if (edad >= 65) return new double[]{55, 75};
-        return null; // Menor de 18 años
-    }
-
-    /**
-     * Evalúa si el peso actual es bajo, normal o alto respecto al rango de edad.
-     * @return Mensaje descriptivo.
-     */
-    public String analizarPesoPorEdad() {
-        double[] rango = obtenerRangoPesoPorEdad();
-        if (rango == null) {
-            return "Edad fuera de rango referencial (menor de 18).";
-        }
-        
-        double pesoMin = rango[0];
-        double pesoMax = rango[1];
-        
-        if (peso < pesoMin) {
-            return "Bajo para su edad (Esperado: " + (int)pesoMin + "-" + (int)pesoMax + "kg)";
-        } else if (peso > pesoMax) {
-            return "Alto para su edad (Esperado: " + (int)pesoMin + "-" + (int)pesoMax + "kg)";
-        } else {
-            return "Adecuado para su edad (" + (int)pesoMin + "-" + (int)pesoMax + "kg)";
-        }
-    }
-
-    public void mostrarInformacion() {
-        System.out.printf("| %-20s | %-5d | %-6.2f | %-6.2f | %-6.2f | %-15s |%n",
-                nombre, edad, peso, estatura, calcularIMC(), interpretarIMC());
-    }
+    // Método abstracto para demostrar polimorfismo
+    public abstract void mostrarInformacion();
 }

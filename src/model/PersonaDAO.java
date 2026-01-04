@@ -4,23 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PersonaDAO {
-    private List<Persona> listaPersonas;
+    private List<Paciente> listaPacientes;
 
     public PersonaDAO() {
-        this.listaPersonas = new ArrayList<>();
+        this.listaPacientes = new ArrayList<>();
     }
 
-    public void registrarPersona(Persona persona) {
-        listaPersonas.add(persona);
+    public void registrarPaciente(Paciente paciente) {
+        listaPacientes.add(paciente);
     }
 
-    public List<Persona> obtenerPersonas() {
-        return listaPersonas;
+    public List<Paciente> obtenerPacientes() {
+        return listaPacientes;
     }
 
-    public boolean actualizarPersona(int indice, String nombre, int edad, double peso, double estatura) {
-        if (indice >= 0 && indice < listaPersonas.size()) {
-            Persona p = listaPersonas.get(indice);
+    public boolean actualizarPaciente(int indice, String nombre, int edad, double peso, double estatura) {
+        if (indice >= 0 && indice < listaPacientes.size()) {
+            Paciente p = listaPacientes.get(indice);
             p.setNombre(nombre);
             p.setEdad(edad);
             p.setPeso(peso);
@@ -30,9 +30,9 @@ public class PersonaDAO {
         return false;
     }
 
-    public boolean eliminarPersona(int indice) {
-        if (indice >= 0 && indice < listaPersonas.size()) {
-            listaPersonas.remove(indice);
+    public boolean eliminarPaciente(int indice) {
+        if (indice >= 0 && indice < listaPacientes.size()) {
+            listaPacientes.remove(indice);
             return true;
         }
         return false;
