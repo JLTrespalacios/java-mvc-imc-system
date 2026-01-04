@@ -27,8 +27,18 @@ public class Paciente extends Persona {
     }
 
     public double calcularIMC() {
-        if (estatura == 0) return 0;
-        return peso / (estatura * estatura);
+        double estaturaMetros = this.estatura;
+        // Normalización de unidades (si el usuario ingresó cm o mm)
+        if (estaturaMetros > 3.0) { 
+            if (estaturaMetros > 300) { // Probablemente milímetros (ej. 1780)
+                estaturaMetros /= 1000;
+            } else { // Probablemente centímetros (ej. 178)
+                estaturaMetros /= 100;
+            }
+        }
+        
+        if (estaturaMetros <= 0) return 0;
+        return peso / (estaturaMetros * estaturaMetros);
     }
 
     public String interpretarIMC() {
