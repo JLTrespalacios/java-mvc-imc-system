@@ -12,7 +12,8 @@ import java.util.List;
 import model.Persona;
 
 public class PersonaView extends JFrame {
-    // --- Paleta de Colores Profesional ---
+
+
     private static final Color PRIMARY_COLOR = new Color(44, 62, 80);    // Azul Oscuro (Midnight Blue)
     private static final Color SECONDARY_COLOR = new Color(52, 152, 219); // Azul Claro (Peter River)
     private static final Color ACCENT_COLOR = new Color(22, 160, 133);    // Verde Azulado (Green Sea)
@@ -20,7 +21,7 @@ public class PersonaView extends JFrame {
     private static final Color SURFACE_COLOR = Color.WHITE;
     private static final Color TEXT_COLOR = new Color(44, 62, 80);
     
-    // Colores de estado
+
     private static final Color SUCCESS_COLOR = new Color(39, 174, 96);
     private static final Color WARNING_COLOR = new Color(18, 67, 243);
     private static final Color DANGER_COLOR = new Color(192, 57, 43);
@@ -46,10 +47,10 @@ public class PersonaView extends JFrame {
         setLayout(new BorderLayout());
         getContentPane().setBackground(BACKGROUND_COLOR);
 
-        // --- Configuración Global de UI ---
+
         configurarUI();
 
-        // --- Panel Principal ---
+
         JPanel panelPrincipal = new JPanel(new BorderLayout(20, 20));
         panelPrincipal.setBackground(BACKGROUND_COLOR);
         panelPrincipal.setBorder(new EmptyBorder(20, 20, 20, 20));
@@ -95,7 +96,7 @@ public class PersonaView extends JFrame {
         panelPrincipal.add(panelSuperior, BorderLayout.NORTH);
 
         // --- Tabla ---
-        String[] columnas = {"Nombre", "Edad", "Peso", "Estatura", "IMC", "Interpretación"};
+        String[] columnas = {"Nombre", "Edad", "Peso", "Estatura", "IMC", "Interpretación", "Análisis Peso/Edad"};
         modeloTabla = new DefaultTableModel(columnas, 0) {
             @Override
             public boolean isCellEditable(int row, int column) { return false; }
@@ -127,11 +128,11 @@ public class PersonaView extends JFrame {
         tablaPersonas.setSelectionBackground(new Color(214, 234, 248));
         tablaPersonas.setSelectionForeground(TEXT_COLOR);
 
-        // --- Encabezado Personalizado (Solución para visibilidad) ---
+
         JTableHeader header = tablaPersonas.getTableHeader();
         header.setPreferredSize(new Dimension(0, 45));
         
-        // Creamos un renderer explícito para el header que fuerce el color de fondo
+
         header.setDefaultRenderer(new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
@@ -145,7 +146,7 @@ public class PersonaView extends JFrame {
             }
         });
 
-        // --- Renderer de Celdas ---
+
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, 
@@ -169,11 +170,17 @@ public class PersonaView extends JFrame {
                             case "Obesidad": setForeground(DANGER_COLOR); break;
                             default: setForeground(TEXT_COLOR);
                         }
+                    } else if (column == 6) { // Columna Análisis Peso/Edad
+                        String analisis = (String) value;
+                        if (analisis.startsWith("Bajo")) setForeground(WARNING_COLOR);
+                        else if (analisis.startsWith("Alto")) setForeground(new Color(230, 126, 34)); // Naranja
+                        else if (analisis.startsWith("Adecuado")) setForeground(SUCCESS_COLOR);
+                        else setForeground(TEXT_COLOR);
                     } else {
                         setForeground(TEXT_COLOR);
                     }
                     
-                    // Alternar fondo
+
                     setBackground(row % 2 == 0 ? SURFACE_COLOR : new Color(248, 249, 249));
                 }
                 return c;
@@ -185,7 +192,7 @@ public class PersonaView extends JFrame {
         }
     }
 
-    // --- Clase para Botones Estilizados ---
+    // --- Clase para Botones  ---
     private static class StyledButton extends JButton {
         private Color normalColor;
         private Color hoverColor;
@@ -221,7 +228,7 @@ public class PersonaView extends JFrame {
                 g2.setColor(normalColor);
             }
             
-            // Borde redondeado
+            // Borde
             g2.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
             
             g2.dispose();
@@ -279,7 +286,8 @@ public class PersonaView extends JFrame {
         for (Persona p : personas) {
             modeloTabla.addRow(new Object[]{
                 p.getNombre(), p.getEdad(), p.getPeso(), p.getEstatura(),
-                String.format("%.2f", p.calcularIMC()), p.interpretarIMC()
+                String.format("%.2f", p.calcularIMC()), p.interpretarIMC(),
+                p.analizarPesoPorEdad()
             });
         }
     }
